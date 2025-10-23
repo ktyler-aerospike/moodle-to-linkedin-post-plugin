@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLDB PATH="local/linkedinshare/db" VERSION="2025101601" COMMENT="LinkedIn share prompt storage"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../lib/xmldb/xmldb.xsd">
+
+  <TABLES>
+    <TABLE NAME="local_linkedinshare" COMMENT="Pending LinkedIn Share prompts">
+      <FIELDS>
+        <FIELD NAME="id"           TYPE="int"   LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid"       TYPE="int"   LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="courseid"     TYPE="int"   LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="badgeid"      TYPE="char"  LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="verifcode"    TYPE="char"  LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="timecreated"  TYPE="int"   LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="dismissuntil" TYPE="int"   LENGTH="10" NOTNULL="false"/>
+      </FIELDS>
+
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+
+      <INDEXES>
+        <INDEX NAME="useridx"   UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="courseidx" UNIQUE="false" FIELDS="courseid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

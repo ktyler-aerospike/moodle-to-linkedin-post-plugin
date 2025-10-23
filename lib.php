@@ -1,0 +1,98 @@
+<?php
+defined('MOODLE_INTERNAL') || die();
+
+use local_linkedinshare\local\repository;
+
+global $CFG;
+/**
+ * Inject a small banner with the Share button when a pending prompt exists.
+ *
+ * @return string HTML to prepend in <body>.
+ */
+function local_linkedinshare_before_standard_top_of_body_html(): string {
+    global $PAGE, $COURSE, $USER;
+
+    // Require a logged-in user (avoid guests).
+    if (empty($USER->id) || isguestuser()) {
+        return '';
+    }
+
+    // OPTIONAL: Restrict to mod_coursecertificate pages only.
+    /*
+    $iscertificatepage = (isset($PAGE->cm) && $PAGE->cm && $PAGE->cm->modname === 'coursecertificate');
+    if (!$iscertificatepage) {
+        return '';
+    }
+    */
+
+    $courseid = !empty($COURSE->id) ? (int)$COURSE->id : null;
+    $prompt = repository::get_current_user_prompt($courseid);
+    if (!$prompt) {
+        return '';
+    }
+
+    // URL Params
+    $badgeid   = $prompt->badgeid;
+    $verifcode = $prompt->verifcode;
+    $apikey = get_config('local_linkedinshare', 'apikey');
+
+    // Read endpoint from plugin settings, with a safe fallback.
+    $cfg = get_config('local_linkedinshare');
+    $endpoint = trim($cfg->endpoint ?? '');
+    if ($endpoint === '') {
+        $endpoint = 'https://mtl-gateway-1tx4fl3l.wl.gateway.dev/auth/linkedin/start';
+    }
+
+    // Build params list.
+    $params = [
+        'badgeid'   => $badgeid,
+        'verifcode' => $verifcode,
+    ];
+
+    // Only include the api key if present in config.
+    if (!empty($apikey)) {
+        $params['apikey'] = $apikey;
+    }
+
+    // V2 $shareurl = new moodle_url($endpoint, $params);
+    $shareurl = new moodle_url('/local/linkedinshare/share.php', [
+        'badgeid'   => $badgeid,
+        'verifcode' => $verifcode,
+    ]);
+
+    $dismissurl = new moodle_url('/local/linkedinshare/dismiss.php', [
+        'id' => $prompt->id,
+        'sesskey' => sesskey(),
+        'redirect' => qualified_me(), // return to current page
+    ]);
+
+    $prompttext = get_string('prompt_text', 'local_linkedinshare');
+    $sharelabel = get_string('share', 'local_linkedinshare');
+    $notnow     = get_string('notnow', 'local_linkedinshare');
+
+    // Inline CSS shim (safe in this hook).
+    $shim = html_writer::tag('style', '
+    #local-linkedinshare-banner {
+        position: sticky;
+        top: 56px;      /* tweak to 64px+ if your theme header is taller */
+        z-index: 1030;  /* above content, below modals */
+        margin: 0;
+    }
+    body.path-admin #local-linkedinshare-banner { top: 0; }
+    ');
+
+    // Build the banner HTML.
+    $html = html_writer::div(
+        html_writer::div(
+            html_writer::tag('strong', s($prompttext)) . ' ' .
+            html_writer::link($shareurl, s($sharelabel), ['class' => 'btn btn-primary ml-2']) . ' ' .
+            html_writer::link($dismissurl, s($notnow), ['class' => 'btn btn-secondary ml-2']),
+            'd-flex flex-wrap align-items-center'
+        ),
+        'alert alert-info shadow-sm',
+        ['id' => 'local-linkedinshare-banner', 'role' => 'region', 'aria-label' => 'LinkedIn Share Prompt']
+    );
+
+    // Return CSS + banner.
+    return $shim . $html;
+}
