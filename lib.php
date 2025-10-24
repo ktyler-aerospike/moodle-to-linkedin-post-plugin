@@ -39,13 +39,13 @@ function local_linkedinshare_before_standard_top_of_body_html(): string {
     $cfg = get_config('local_linkedinshare');
     $endpoint = trim($cfg->endpoint ?? '');
     if ($endpoint === '') {
-        $endpoint = 'https://mtl-911747996491.us-west1.run.app/auth/linkedin/start';
+        $endpoint = 'https://mtl-911747996491.us-west1.run.app';
     }
 
-
+    $endpoint_w_path = rtrim($endpoint, '/') . '/auth/linkedin/start';
 
     // Build the target URL with your params.
-    $shareurl = new moodle_url($endpoint, [
+    $shareurl = new moodle_url($endpoint_w_path, [
         'badgeid'   => $badgeid,
         'verifcode' => $verifcode,
     ]);
