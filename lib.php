@@ -31,34 +31,25 @@ function local_linkedinshare_before_standard_top_of_body_html(): string {
         return '';
     }
 
-    // URL Params
+    // NOTE: Do not s() values for URLs; moodle_url will encode params.
     $badgeid   = $prompt->badgeid;
     $verifcode = $prompt->verifcode;
-    $apikey = get_config('local_linkedinshare', 'apikey');
 
     // Read endpoint from plugin settings, with a safe fallback.
     $cfg = get_config('local_linkedinshare');
     $endpoint = trim($cfg->endpoint ?? '');
     if ($endpoint === '') {
-        $endpoint = 'https://mtl-gateway-1tx4fl3l.wl.gateway.dev/auth/linkedin/start';
+        $endpoint = 'https://mtl-911747996491.us-west1.run.app/auth/linkedin/start';
     }
 
-    // Build params list.
-    $params = [
-        'badgeid'   => $badgeid,
-        'verifcode' => $verifcode,
-    ];
 
-    // Only include the api key if present in config.
-    if (!empty($apikey)) {
-        $params['apikey'] = $apikey;
-    }
 
-    // V2 $shareurl = new moodle_url($endpoint, $params);
-    $shareurl = new moodle_url('/local/linkedinshare/share.php', [
+    // Build the target URL with your params.
+    $shareurl = new moodle_url($endpoint, [
         'badgeid'   => $badgeid,
         'verifcode' => $verifcode,
     ]);
+
 
     $dismissurl = new moodle_url('/local/linkedinshare/dismiss.php', [
         'id' => $prompt->id,
@@ -72,14 +63,14 @@ function local_linkedinshare_before_standard_top_of_body_html(): string {
 
     // Inline CSS shim (safe in this hook).
     $shim = html_writer::tag('style', '
-    #local-linkedinshare-banner {
-        position: sticky;
-        top: 56px;      /* tweak to 64px+ if your theme header is taller */
-        z-index: 1030;  /* above content, below modals */
-        margin: 0;
-    }
-    body.path-admin #local-linkedinshare-banner { top: 0; }
-    ');
+#local-linkedinshare-banner {
+    position: sticky;
+    top: 56px;      /* tweak to 64px+ if your theme header is taller */
+    z-index: 1030;  /* above content, below modals */
+    margin: 0;
+}
+body.path-admin #local-linkedinshare-banner { top: 0; }
+');
 
     // Build the banner HTML.
     $html = html_writer::div(
