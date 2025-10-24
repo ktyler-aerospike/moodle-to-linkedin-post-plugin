@@ -9,8 +9,10 @@ Shows a LinkedIn share prompt when a certificate is issued by tool_certificate. 
 
 **Install**
 1. Place in `local/linkedinshare`.
-2. Visit `Site administration → Notifications` to install DB table.
-3. (Optional) Limit the banner to the coursecertificate activity by uncommenting the block in `lib.php`.
+     docker cp ~/moodle-to-linkedin-post-plugin/. moodle_docker-moodle-1:/var/www/html/local/linkedinshare
+
+3. Visit `Site administration → Notifications` to install DB table.
+4. (Optional) Limit the banner to the coursecertificate activity by uncommenting the block in `lib.php`.
 
 **Notes**
 - Compatible with Moodle 5 and Moodle Workplace.
