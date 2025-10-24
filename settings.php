@@ -7,18 +7,10 @@ if ($hassiteconfig) {
     // Gateway endpoint (the API Gateway URL your Moodle calls, e.g. https://<gateway-host>/verify).
     $settings->add(new admin_setting_configtext(
         'local_linkedinshare/endpoint',
-        'Gateway endpoint',
+        'Function endpoint',
         'Full URL to your API Gateway route that proxies to Cloud Run (e.g.https://mtl-911747996491.us-west1.run.app).',
         'https://mtl-911747996491.us-west1.run.app',
         PARAM_URL
-    ));
-
-    // API key for the gateway (sent as x-api-key). Masked in UI.
-    $settings->add(new admin_setting_configpasswordunmask(
-        'local_linkedinshare/apikey',
-        'API key',
-        'API key created in Google Cloud Console (APIs & Services → Credentials). This will be sent as the x-api-key header.',
-        ''
     ));
 
     // Optional: HTTP timeout when calling the gateway.
