@@ -8,8 +8,8 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext(
         'local_linkedinshare/endpoint',
         'Function endpoint',
-        'Full URL to your API Gateway route that proxies to Cloud Run (e.g.https://mtl-911747996491.us-west1.run.app).',
-        'https://mtl-911747996491.us-west1.run.app',
+        'Full URL to your API Gateway route that proxies to Cloud Run (e.g. https://share-badge.your-domain.com).',
+        'https://share-badge.your-domain.com',       
         PARAM_URL
     ));
 
