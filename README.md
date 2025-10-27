@@ -1,3 +1,4 @@
+Quick test of updates from pull. 
 # local_linkedinshare
 
 Shows a LinkedIn share prompt when a certificate is issued by tool_certificate. The other half (what happens after you hit the share button) is stored in a different repo and is a GCP Cloud Run serverless function.
