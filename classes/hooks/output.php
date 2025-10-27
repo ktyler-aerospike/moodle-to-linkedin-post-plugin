@@ -29,7 +29,7 @@ final class output {
         $courseid = !empty($COURSE->id) ? (int)$COURSE->id : null;
 
         // Keep the existing repository call exactly as before.
-        $prompt = \local_linkedinshare\classes\local\repository::get_current_user_prompt($courseid);
+        $prompt = \local_linkedinshare\local\repository::get_current_user_prompt($courseid);
         if (!$prompt) {
             return;
         }
