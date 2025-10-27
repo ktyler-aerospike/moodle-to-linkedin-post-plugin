@@ -21,6 +21,8 @@ $string['privacy:metadata:local_linkedinshare:dismissuntil'] = 'If dismissed, do
 // config page strings
 $string['setting:endpoint'] = 'Share endpoint URL';
 $string['setting:endpoint_desc'] = 'Base URL to start the LinkedIn share/auth flow. Usually ends with /auth/linkedin/start';
+$string['enabled'] = 'Enable Share Banner for LinkedIn';
+$string['enabled_desc'] = 'If disabled, the LinkedIn share banner and related functionality will be completely turned off.';
 
 //error message strings
 $string['missingconfig'] = 'Missing configuration: {$a}';

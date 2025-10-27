@@ -12,6 +12,12 @@ final class output {
      */
     public static function before_top_of_body(before_standard_top_of_body_html_generation $hook): void {
         global $PAGE, $COURSE, $USER;
+        $cfg = \get_config('local_linkedinshare');
+
+        // If config is disabled the banner doesn't get created.
+        if (empty($cfg->enabled)) {
+            return;
+        }
 
         // Require a logged-in user (avoid guests).
         if (empty($USER->id) || \isguestuser()) {
