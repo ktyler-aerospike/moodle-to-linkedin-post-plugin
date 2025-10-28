@@ -23,7 +23,7 @@ function xmldb_local_linkedinshare_upgrade($oldversion) {
     }
 
     // Add optout flag (Never show again).
-    if ($oldversion < 2025102601) {
+    if ($oldversion < 2025102710) {
         $table = new xmldb_table('local_linkedinshare');
 
         $optout = new xmldb_field('optout', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
