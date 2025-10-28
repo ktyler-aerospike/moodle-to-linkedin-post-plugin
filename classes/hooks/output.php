@@ -70,8 +70,19 @@ body.path-admin #local-linkedinshare-banner { top: 0; }
         // Buttons in required order: Never | Not Now | Share.
         $neverbutton  = \html_writer::link($neverurl,  \s($neverlabel), ['class' => 'btn btn-secondary ml-2']);
         $notnowbutton = \html_writer::link($dismissurl, \s($notnow),     ['class' => 'btn btn-secondary ml-2']);
-        $sharebutton  = \html_writer::link($shareurl,  \s($sharelabel),  ['class' => 'btn btn-primary  ml-2']);
+       
+       $sharebutton  = \html_writer::link(
+        $shareurl,
+            \s($sharelabel),
+            [
+                'class' => 'btn btn-primary ml-2',
+                'id'    => 'local-linkedinshare-sharebtn',
+                'target'=> '_blank',                 // open in new tab/window
+                'rel'   => 'noopener noreferrer',    // security best practice
+            ]
+        );
 
+       
         // Follow-up row (visible if already clicked and not confirmed).
         $showfollowup = !empty($prompt->clickedat) && empty($prompt->sharedconfirmedat);
         $followupstyle = $showfollowup ? '' : 'display:none;';
@@ -100,14 +111,23 @@ body.path-admin #local-linkedinshare-banner { top: 0; }
             ['id' => 'local-linkedinshare-banner', 'role' => 'region', 'aria-label' => 'LinkedIn Share Prompt']
         );
 
-        // Tiny JS: allow hiding the follow-up if the user clicks "Not yet".
         $js = \html_writer::tag('script', "
-(function(){
-  var follow = document.getElementById('local-linkedinshare-followup');
-  var ny = document.getElementById('local-linkedinshare-notyet');
-  if (ny && follow) ny.addEventListener('click', function(){ follow.style.display = 'none'; });
-})();
-");
+        (function(){
+        var share = document.getElementById('local-linkedinshare-sharebtn');
+        var follow = document.getElementById('local-linkedinshare-followup');
+        var ny = document.getElementById('local-linkedinshare-notyet');
+        if (share && follow) {
+            share.addEventListener('click', function(){
+            follow.style.display='';
+            });
+        }
+        if (ny && follow) {
+            ny.addEventListener('click', function(){
+            follow.style.display='none';
+            });
+        }
+        })();
+        ");
 
         // Output to the hook.
         $hook->add_html($shim . $banner . $js);
