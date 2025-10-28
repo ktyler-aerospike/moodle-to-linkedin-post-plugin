@@ -12,7 +12,7 @@ if ($hassiteconfig) {
         'local_linkedinshare/endpoint',
         get_string('endpoint', 'local_linkedinshare'), // or 'Function endpoint'
         get_string('endpoint_desc', 'local_linkedinshare'), // or a literal string if you prefer
-        'https://share-badge.your-domain.com',
+        'https://share-badge.your-domain.com/auth/linkedin/start',
         PARAM_URL
     )); // <-- CLOSE the add() call properly
 

@@ -13,7 +13,7 @@ $prompt = $DB->get_record('local_linkedinshare', ['id' => $id, 'userid' => $USER
 $cfg = get_config('local_linkedinshare');
 $endpoint = trim($cfg->endpoint ?? '');
 if ($endpoint === '') {
-    $endpoint = 'https://post-as-function-135218520943.us-west1.run.app/auth/linkedin/start';
+    $endpoint = 'https://share-badge.learn.aerospike.com/auth/linkedin/start';
 }
 
 if ($prompt) {
