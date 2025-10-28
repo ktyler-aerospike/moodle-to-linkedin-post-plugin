@@ -5,6 +5,12 @@ $string['pluginname'] = 'LinkedIn Share for Certificates';
 $string['prompt_text'] = 'Are you ready to share your certificate on LinkedIn?';
 $string['share'] = 'Share';
 $string['notnow'] = 'Not now';
+$string['notyet'] = 'Not yet';
+$string['confirm:success'] = 'Thanks! We won’t show this again.';
+$string['never'] = 'Never share';
+$string['postedq'] = 'Did it post successfully?';
+$string['yesposted'] = 'Yes, it posted';
+
 
 //text for when banner button is chosen
 $string['dismiss:done'] = 'Okay, we won’t show this again for a while.';

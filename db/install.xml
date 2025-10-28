@@ -13,6 +13,10 @@
         <FIELD NAME="verifcode"    TYPE="char"  LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="timecreated"  TYPE="int"   LENGTH="10" NOTNULL="true"/>
         <FIELD NAME="dismissuntil" TYPE="int"   LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="clickedat"         TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="sharedconfirmedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="optout"            TYPE="int" LENGTH="1"  NOTNULL="true" DEFAULT="0"/>
+
       </FIELDS>
 
       <KEYS>

@@ -63,6 +63,9 @@ class repository {
         }
 
         $wheres[] = '(dismissuntil IS NULL OR dismissuntil < :now)';
+        $wheres[] = '(sharedconfirmedat IS NULL)';
+        $wheres[] = '(optout = 0 OR optout IS NULL)';
+
         $params['now'] = $now;
 
         // Most recent first.

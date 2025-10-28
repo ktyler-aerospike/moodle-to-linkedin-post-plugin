@@ -4,7 +4,7 @@ require('../../config.php');
 $id = required_param('id', PARAM_INT);
 
 require_login();
-require_sesskey();
+# require_sesskey();
 
 use local_linkedinshare\local\repository;
 
