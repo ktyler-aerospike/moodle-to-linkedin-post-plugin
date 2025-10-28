@@ -13,6 +13,11 @@ final class output {
     public static function before_top_of_body(before_standard_top_of_body_html_generation $hook): void {
         global $PAGE, $COURSE, $USER;
 
+        // Skip during installation/upgrade.
+        if (\during_initial_install()) {
+            return;
+        }
+
         // Optional feature toggle (only if you actually have this setting).
         $cfg = \get_config('local_linkedinshare');
         if (isset($cfg->enabled) && empty($cfg->enabled)) {
