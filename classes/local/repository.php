@@ -52,19 +52,30 @@ class repository {
             return null;
         }
 
-        $now = time();
-        $wheres = ['userid = :userid'];
-        $params = ['userid' => $USER->id];
+         // If table isn’t there yet, don’t query.
+        $dbman = $DB->get_manager();
+        $table = new \xmldb_table('local_linkedinshare');
+        if (!$dbman->table_exists($table)) {
+            return null;
+        }
 
+        $now = time();
+        $wheres = ['userid = :userid', '(dismissuntil IS NULL OR dismissuntil < :now)'];
+        $params = ['userid' => $USER->id];
+        
         // Optional: restrict to the current course to only show on course/activity pages.
         if (!empty($courseid)) {
             $wheres[] = 'courseid = :courseid';
             $params['courseid'] = $courseid;
         }
 
-        $wheres[] = '(dismissuntil IS NULL OR dismissuntil < :now)';
-        $wheres[] = '(sharedconfirmedat IS NULL)';
-        $wheres[] = '(optout = 0 OR optout IS NULL)';
+        // Add optional filters only if columns exist.
+        if ($dbman->field_exists($table, new \xmldb_field('sharedconfirmedat'))) {
+            $wheres[] = '(sharedconfirmedat IS NULL)';
+        }
+        if ($dbman->field_exists($table, new \xmldb_field('optout'))) {
+            $wheres[] = '(optout = 0 OR optout IS NULL)';
+        }
 
         $params['now'] = $now;
 
